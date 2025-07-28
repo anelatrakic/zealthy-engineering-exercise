@@ -26,7 +26,7 @@ export async function POST(request: Request) {
         });
 
         if (existingUser) {
-            // If the user already exists, verify password
+            // Very password matches
             if (existingUser.password === password) {
                 return NextResponse.json({
                     success: true,
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
                 );
             }
         } else {
-            // Otherwise, persist to database
+            // Otherwise, add new user
             const user = await prisma.user.create({
                 data: {
                     email,

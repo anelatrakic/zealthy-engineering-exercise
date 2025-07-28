@@ -84,11 +84,15 @@ export default function AdminPage() {
 
         setSaving(true);
         try {
-            await fetch("/api/admin-config", {
+            const response = await fetch("/api/admin-config", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(entries),
             });
+
+            if (!response.ok) {
+                setError("Failed to save configuration. Please try again.");
+            }
         } catch {
             setError("Failed to save configuration. Please try again.");
         } finally {
@@ -112,6 +116,12 @@ export default function AdminPage() {
                         title="Admin Configuration"
                         subtitle="Configure which components appear on which onboarding steps"
                     />
+
+                    {error && (
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
+                            {error}
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {entries.map(({ id, component, stepNumber }) => (
@@ -140,7 +150,7 @@ export default function AdminPage() {
                                 {saving ? "Saving…" : "Save Configuration"}
                             </Button>
                             <Button
-                                onClick={() => router.push("/")}
+                                onClick={() => router.push("/?restart=true")}
                                 variant="back"
                             >
                                 Back to Sign In

@@ -6,6 +6,7 @@ import AddressInput from "./Forms/AddressInput";
 import AboutMeInput from "./Forms/AboutMeInput";
 import DOBInput from "./Forms/DOBInput";
 import Button from "../FormInputs/Button";
+import LoadingSpinner from "../LoadingSpinner";
 
 type ComponentType = "AboutMe" | "Address" | "DOB";
 
@@ -39,7 +40,7 @@ export default function StepTwoForm({ onComplete }: StepTwoFormProps) {
     const [loading, setLoading] = useState(true);
     const { userEmail, setCurrentStep, userData, setUserData } = useUser();
 
-    // Load admin configuration
+    // Load admin config to determine which components to render
     useEffect(() => {
         fetch("/api/admin-config")
             .then((res) => res.json())
@@ -55,7 +56,6 @@ export default function StepTwoForm({ onComplete }: StepTwoFormProps) {
                 }
             })
             .catch((error) => {
-                console.error("Failed to load admin config:", error);
                 setAdminConfig([
                     { id: "", component: "AboutMe", stepNumber: 2 },
                     { id: "", component: "Address", stepNumber: 3 },
@@ -65,8 +65,8 @@ export default function StepTwoForm({ onComplete }: StepTwoFormProps) {
             .finally(() => setLoading(false));
     }, []);
 
-    // Pre-populate form data if user has existing data
     useEffect(() => {
+        // If user/email already in DB, pre-fill form if data exists
         if (userData) {
             if (userData.aboutMe) {
                 setAboutMe(userData.aboutMe);
@@ -91,7 +91,6 @@ export default function StepTwoForm({ onComplete }: StepTwoFormProps) {
     };
 
     const handleSubmit = async () => {
-        // Collect all data for step 2 components
         let updateData: any = {
             email: userEmail,
             onboardingStep: 2,
@@ -145,7 +144,6 @@ export default function StepTwoForm({ onComplete }: StepTwoFormProps) {
                         onAboutMeChange={(
                             e: React.ChangeEvent<HTMLTextAreaElement>
                         ) => setAboutMe(e.target.value)}
-                        showSubmit={false}
                     />
                 );
 
@@ -155,7 +153,6 @@ export default function StepTwoForm({ onComplete }: StepTwoFormProps) {
                         key="Address"
                         address={address}
                         onAddressChange={handleAddressChange}
-                        showSubmit={false}
                     />
                 );
 
@@ -167,7 +164,6 @@ export default function StepTwoForm({ onComplete }: StepTwoFormProps) {
                         onDateOfBirthChange={(
                             e: React.ChangeEvent<HTMLInputElement>
                         ) => setDateOfBirth(e.target.value)}
-                        showSubmit={false}
                     />
                 );
 
@@ -177,10 +173,10 @@ export default function StepTwoForm({ onComplete }: StepTwoFormProps) {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <LoadingSpinner />;
     }
 
-    // Get components configured for step 2
+    // Based on admin, render correct components
     const step2Components = adminConfig.filter(
         (config) => config.stepNumber === 2
     );

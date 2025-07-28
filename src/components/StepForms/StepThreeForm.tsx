@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { useUser } from "@/context/UserContext";
 import AddressInput from "./Forms/AddressInput";
@@ -38,6 +39,7 @@ export default function StepThreeForm({ onComplete }: StepThreeFormProps) {
     const [loading, setLoading] = useState(true);
     const { userEmail, setCurrentStep, userData, setUserData } = useUser();
 
+    // Load admin config to determine which components to render
     useEffect(() => {
         fetch("/api/admin-config")
             .then((res) => res.json())
@@ -64,6 +66,7 @@ export default function StepThreeForm({ onComplete }: StepThreeFormProps) {
     }, []);
 
     useEffect(() => {
+        // If user/email already in DB, pre-fill form if data exists
         if (userData) {
             if (userData.aboutMe) {
                 setAboutMe(userData.aboutMe);
@@ -140,7 +143,6 @@ export default function StepThreeForm({ onComplete }: StepThreeFormProps) {
                         onAboutMeChange={(
                             e: React.ChangeEvent<HTMLTextAreaElement>
                         ) => setAboutMe(e.target.value)}
-                        showSubmit={false}
                     />
                 );
 
@@ -150,7 +152,6 @@ export default function StepThreeForm({ onComplete }: StepThreeFormProps) {
                         key="Address"
                         address={address}
                         onAddressChange={handleAddressChange}
-                        showSubmit={false}
                     />
                 );
 
@@ -162,7 +163,6 @@ export default function StepThreeForm({ onComplete }: StepThreeFormProps) {
                         onDateOfBirthChange={(
                             e: React.ChangeEvent<HTMLInputElement>
                         ) => setDateOfBirth(e.target.value)}
-                        showSubmit={false}
                     />
                 );
 

@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
@@ -33,13 +34,11 @@ export default function SignInForm() {
                 setUserEmail(email);
                 setUserData(data.user);
 
-                // Always start at step 2 for both new and existing users
                 setCurrentStep(2);
             } else {
                 setError(data.error || "Authentication failed");
             }
         } catch (error) {
-            console.error("Error:", error);
             setError("An error occurred. Please try again.");
         } finally {
             setIsLoading(false);

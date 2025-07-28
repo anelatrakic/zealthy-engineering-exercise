@@ -1,4 +1,3 @@
-import Button from "../../FormInputs/Button";
 import TextInput from "../../FormInputs/TextInput";
 import PageHeader from "../../PageHeader";
 
@@ -12,17 +11,11 @@ interface Address {
 interface AddressInputProps {
     address: Address;
     onAddressChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onSubmit?: () => void;
-    onBack?: () => void;
-    showSubmit?: boolean;
 }
 
 export default function AddressInput({
     address,
     onAddressChange,
-    onSubmit,
-    onBack,
-    showSubmit = true,
 }: AddressInputProps) {
     return (
         <div key="Address" className="space-y-4">

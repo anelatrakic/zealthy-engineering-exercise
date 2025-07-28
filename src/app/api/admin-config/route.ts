@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
@@ -28,25 +28,21 @@ export async function PUT(request: NextRequest) {
         await Promise.all(
             updates.map(async (u) => {
                 if (u.id) {
-                    // Update existing entry
                     return prisma.adminConfig.update({
                         where: { id: u.id },
                         data: { stepNumber: u.stepNumber },
                     });
                 } else {
-                    // Check if an entry for this component already exists
                     const existing = await prisma.adminConfig.findFirst({
                         where: { component: u.component },
                     });
-
+                    // Update if exists, otherwise create new
                     if (existing) {
-                        // Update existing entry
                         return prisma.adminConfig.update({
                             where: { id: existing.id },
                             data: { stepNumber: u.stepNumber },
                         });
                     } else {
-                        // Create new entry
                         return prisma.adminConfig.create({
                             data: {
                                 component: u.component,
@@ -59,7 +55,6 @@ export async function PUT(request: NextRequest) {
         );
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error("Admin config update error:", error);
         return NextResponse.json(
             { error: "Failed to update config" },
             { status: 500 }
