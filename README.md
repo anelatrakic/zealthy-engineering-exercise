@@ -1,66 +1,59 @@
-# Zealthy Onboarding Flow
-
+# 🟢 Zealthy Onboarding Exercise 🟢
 A custom multi-step onboarding application built for Zealthy that allows users to sign up and provide personal information through a configurable step-by-step process.
 
 ### User Flow
+- **Step 1**: Email and password authentication  
+- **Step 2**: Configurable fields (About Me, Address, and/or Date of Birth)  
+- **Step 3**: Additional configurable fields (About Me, Address, and/or Date of Birth)  
+- **Success Page**: Completion confirmation with data viewing options
 
-1. **Step 1**: Email and password authentication
-2. **Step 2**: Configurable form components (About Me, Address, and/or Date of Birth)
-3. **Step 3**: Additional configurable form components (About Me, Address, and/or Date of Birth)
-4. **Success Page**: Completion confirmation with data viewing options
-
-Also included a header to navigate to the Sign In, Data, or Admin pages.
+Also included a header to navigate to the **Sign In**, **Data**, and **Admin** pages.
 
 ## Tech Stack
 
-### Frontend
+### 🔹 Frontend
+- Next.js, TypeScript, Tailwind CSS, & React Context API
 
--   **Next.js** - React framework with App Router
--   **TypeScript** - Type-safe JavaScript
--   **Tailwind CSS** - Utility-first CSS framework
--   **React Context** - State management for user session
+### 🔹 Backend
+- Next.js API Routes, Prisma ORM, PostgresSQL, Supabase
 
-### Backend
+## Main Form Components
+- **About Me** – Text area for user description  
+- **Address** – Street, City, State, Zip fields  
+- **Date of Birth** – Date picker input
 
--   **Next.js API Routes** - Server-side API endpoints
--   **PostgreSQL** - Primary database
--   **Prisma ORM** - Database toolkit and query builder
-
-### Main Form Components
-
--   **About Me**: Text area for user description
--   **Address**: Street, city, state, zip fields
--   **Date of Birth**: Date picker input
+Note: these are conditionally rendered based on admin configuration.
 
 ## API Endpoints
 
--   `POST /api/user` - User authentication
--   `PUT /api/user` - Update user data
--   `GET /api/user` - Fetch all users (data page)
--   `GET /api/admin-config` - Get form configuration
--   `PUT /api/admin-config` - Update form configuration
+| Endpoint                  | Method | Description                              |
+|---------------------------|--------|------------------------------------------|
+| `/api/user`               | POST   | Authenticate and create user             |
+| `/api/user`               | PUT    | Update user profile data                 |
+| `/api/user`               | GET    | Retrieve all users (Data page)           |
+| `/api/admin-config`       | GET    | Fetch current admin-configured form      |
+| `/api/admin-config`       | PUT    | Update onboarding form configuration     |
 
 ## Database Schema
 
-### User Model
+### `User` Model
+- ID, Email, Password, About Me, Address (Street, City, State, Zip), Date of Birth  
+- `onboardingStep` field tracks progress  
 
--   Authentication (email, password)
--   Personal data (aboutMe, address fields, dateOfBirth)
--   Progress tracking (onboardingStep)
+### `AdminConfig` Model
+- Defines which components are shown on which steps  
+- ID, Component, Step Number
 
-### AdminConfig Model
+## ⚠️ Some Limitations
 
--   Component assignment to steps
--   Dynamic form configuration
+- No form input validation  
+- No session management (e.g., tokens or cookies)  
+- No authentication/security (e.g., password hashing)  
+- Not scalable (e.g., lacks caching, error handling)  
+- No testing coverage, no unit tests 
 
-## Some Limitations
+## Deployment Platform
 
--   No validation for Form components
--   Lacking session management
--   No authetntication & security (ex. no password hashing)
--   Not scalable (ex. no caching)
--   No unit testing
+This app is deployed via **Vercel**:  
+🔗 [Live Demo](https://zealthy-engineering-exercise.vercel.app/)
 
-## Deployment platform
-
-I decided to host the site on Vercel. Here's the link: https://zealthy-engineering-exercise.vercel.app/
