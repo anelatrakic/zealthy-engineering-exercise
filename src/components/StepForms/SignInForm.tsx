@@ -48,7 +48,7 @@ export default function SignInForm() {
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <Image
-                src="/favicon.ico"
+                src="/zealthy-logo.jpg"
                 alt="Logo"
                 width={60}
                 height={60}

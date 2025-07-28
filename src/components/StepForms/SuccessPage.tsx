@@ -13,7 +13,7 @@ export default function SuccessPage() {
         <div className="flex flex-col h-full space-y-4">
             <div className="flex-grow space-y-4">
                 <Image
-                    src="/favicon.ico"
+                    src="/zealthy-logo.jpg"
                     alt="Logo"
                     width={60}
                     height={60}
