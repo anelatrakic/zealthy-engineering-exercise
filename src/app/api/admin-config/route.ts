@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         const all = await prisma.adminConfig.findMany();
         return NextResponse.json(all);
     } catch (error) {
+        console.error("Database connection error:", error);
         return NextResponse.json(
             { error: "Failed to fetch config" },
             { status: 500 }
